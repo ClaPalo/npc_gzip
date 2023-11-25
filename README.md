@@ -6,7 +6,6 @@ This paper is accepted to Findings of [ACL2023](https://aclanthology.org/2023.fi
 
 This codebase is [available on pypi.org via](https://pypi.org/project/npc-gzip):
 
-
 ```sh
 pip install npc-gzip
 ```
@@ -25,7 +24,7 @@ poetry install
 pytest
 ```
 
--------------------------
+---
 
 ### Original Codebase
 
@@ -62,6 +61,28 @@ By default, this will only use 100 test and training samples per class as a quic
 --test_idx_end <INT> [These two args help us to run on a certain range of test set. Also helpful for calculating the distance matrix on the whole dataset.]
 --para [This will use multiprocessing to accelerate.]
 --output_dir <DIR> [The output directory to save information of tested indices or distance matrix.]
+```
+
+#### Running full-shot experiments
+
+To run full-shot experiments, use:
+
+```sh
+python main_text.py --para --dataset <DATASET> --full_train --full_test
+```
+
+With certain datasets, such as DBpedia, we were obtaining an error while doing so. To fix this, we ran the experiment with the highest num_train possible (found through trial and error). In the case of DBpedia, it was 40000:
+
+```sh
+python main_text.py --para --dataset DBpedia --num_train 40000 --full_test
+```
+
+#### Running 5-shot experiments
+
+To run 5-shot experiments, use:
+
+```sh
+python main_text.py --para --dataset <DATASET> --num_train 5 --full_test
 ```
 
 #### Calculate Accuracy (Optional)
