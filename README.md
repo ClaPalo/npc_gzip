@@ -2,6 +2,8 @@
 
 Original paper was accepted to Findings of [ACL2023](https://aclanthology.org/2023.findings-acl.426/).
 
+Original GitHub repository: https://github.com/bazingagin/npc_gzip
+
 ## Getting Started
 
 This codebase is also [available on pypi.org via](https://pypi.org/project/npc-gzip):
@@ -12,7 +14,7 @@ pip install npc-gzip
 
 ## Usage
 
-See the [examples](./examples/) directory for example usage.
+See the [examples](./examples/) directory for some examples.
 
 ## Testing
 
@@ -46,7 +48,7 @@ pip install -r requirements.txt
 python main_text.py
 ```
 
-By default, this will only use 100 test and training samples per class as a quick demo. They can be changed by `--num_test`, `--num_train`.
+By default, this will only use 100 test and training samples per class as a quick demo. They can be changed by `--num_test`, `--num_train`. The command will also create a new directory, called `data`, containing the `train.csv` and `test.csv` files.
 
 ```text
 --compressor <gzip, lzma, bz2>
@@ -56,12 +58,14 @@ By default, this will only use 100 test and training samples per class as a quic
 --data_dir <DIR> [This needs to be specified for R8, R52 and Ohsumed.]
 --all_test [This will use the whole test dataset.]
 --all_train
---record [This will record the distance matrix in order to save for the future use. It's helpful when you want to run on the whole dataset.]
+--record [This will record the distance matrix in order to save it for future uses. It's helpful when you want to run on the whole dataset.]
 --test_idx_start <INT>
 --test_idx_end <INT> [These two args help us to run on a certain range of test set. Also helpful for calculating the distance matrix on the whole dataset.]
 --para [This will use multiprocessing to accelerate.]
 --output_dir <DIR> [The output directory to save information of tested indices or distance matrix.]
 ```
+
+EDIT: We didn't understand what kind of direcotry should be specified after `--data_dir` in order to use R8, R52 and Ohsumed.
 
 #### Run full-shot experiments
 
