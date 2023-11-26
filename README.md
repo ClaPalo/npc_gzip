@@ -1,10 +1,10 @@
-# Code for Paper: “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors
+# A Replication Study of *“Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors*
 
-This paper is accepted to Findings of [ACL2023](https://aclanthology.org/2023.findings-acl.426/).
+Original paper was accepted to Findings of [ACL2023](https://aclanthology.org/2023.findings-acl.426/).
 
 ## Getting Started
 
-This codebase is [available on pypi.org via](https://pypi.org/project/npc-gzip):
+This codebase is also [available on pypi.org via](https://pypi.org/project/npc-gzip):
 
 ```sh
 pip install npc-gzip
@@ -56,28 +56,28 @@ By default, this will only use 100 test and training samples per class as a quic
 --data_dir <DIR> [This needs to be specified for R8, R52 and Ohsumed.]
 --all_test [This will use the whole test dataset.]
 --all_train
---record [This will record the distance matrix in order to save for the future use. It's helpful when you when to run on the whole dataset.]
+--record [This will record the distance matrix in order to save for the future use. It's helpful when you want to run on the whole dataset.]
 --test_idx_start <INT>
 --test_idx_end <INT> [These two args help us to run on a certain range of test set. Also helpful for calculating the distance matrix on the whole dataset.]
 --para [This will use multiprocessing to accelerate.]
 --output_dir <DIR> [The output directory to save information of tested indices or distance matrix.]
 ```
 
-#### Running full-shot experiments
+#### Run full-shot experiments
 
 To run full-shot experiments, use:
 
 ```sh
-python main_text.py --para --dataset <DATASET> --full_train --full_test
+python main_text.py --para --dataset <DATASET> --all_train --all_test
 ```
 
-With certain datasets, such as DBpedia, we were obtaining an error while doing so. To fix this, we ran the experiment with the highest num_train possible (found through trial and error). In the case of DBpedia, it was 40000:
+With certain datasets, such as DBpedia, we were obtaining an error while doing so. To fix this, we ran the experiment with the highest num_train possible (found through tuning). In the case of DBpedia, it was 40000:
 
 ```sh
-python main_text.py --para --dataset DBpedia --num_train 40000 --full_test
+python main_text.py --para --dataset DBpedia --num_train 40000 --all_test
 ```
 
-#### Running 5-shot experiments
+#### Run 5-shot experiments
 
 To run 5-shot experiments, use:
 
@@ -93,9 +93,9 @@ If we want to calculate accuracy from recorded distance file `<DISTANCE DIR>`, u
 python main_text.py --record --score --distance_fn <DISTANCE DIR>
 ```
 
-to calculate accuracy. Otherwise, the accuracy will be calculated automatically using the command in the last section.
+Anyway, the accuracy will be automatically calculated using the command in the section above.
 
-#### Use Custom Dataset
+#### Use Custom Dataset (We didn't try this)
 
 You can use your own custom dataset by passing `custom` to `--dataset`; pass the data directory that contains `train.txt` and `test.txt` to `--data_dir`; pass the class number to the `--class_num`.
 
