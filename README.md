@@ -26,6 +26,8 @@ poetry install
 pytest
 ```
 
+WARNING: According to [the official documentation](https://python-poetry.org/docs/), *Poetry requires Python 3.8+*. We found out that you have to install Python 3.9+ to be able to run both Poetry and the original codebase. Take this into account if you want to execute tests.
+
 ---
 
 ### Original Codebase
@@ -48,14 +50,14 @@ pip install -r requirements.txt
 python main_text.py
 ```
 
-By default, this will only use 100 test and training samples per class as a quick demo. They can be changed by `--num_test`, `--num_train`. The command will also create a new directory, called `data`, containing the `train.csv` and `test.csv` files.
+By default, this will only use 100 test and training samples per class as a quick demo. They can be changed by `--num_test`, `--num_train`. The command should also create a new directory, called `data`, containing the `train.csv` and `test.csv` files.
 
 ```text
 --compressor <gzip, lzma, bz2>
---dataset <AG_NEWS, SogouNews, DBpedia, YahooAnswers, 20News, Ohsumed_single, R8, R52, kinnews, kirnews, swahili, filipino> [Note that for small datasets like kinnews, default 100-shot is too big, need to set --num_test and --num_train.]
+--dataset <AG_NEWS, SogouNews, DBpedia, YahooAnswers, 20News, Ohsumed_single, R8, R52, kinnews, kirnews, swahili, filipino>
 --num_train <INT>
 --num_test <INT>
---data_dir <DIR> [This needs to be specified for R8, R52 and Ohsumed.]
+--data_dir <DIR>
 --all_test [This will use the whole test dataset.]
 --all_train
 --record [This will record the distance matrix in order to save it for future uses. It's helpful when you want to run on the whole dataset.]
@@ -65,7 +67,7 @@ By default, this will only use 100 test and training samples per class as a quic
 --output_dir <DIR> [The output directory to save information of tested indices or distance matrix.]
 ```
 
-EDIT: We didn't understand what kind of direcotry should be specified after `--data_dir` in order to use R8, R52 and Ohsumed.
+WARNING: We found out that the program is not always able to automatically download the dataset .csv files required to run the text-classification algorithm. The original authors didn't specify this neither in the repo nor in the paper and it took us a lot of time to understand this. If you experience errors like *FileNotFoundError: [Errno 2] No such file or directory: 'data/train.csv'* or *NotImplementedError: Loading a dataset cached in a LocalFileSystem is not supported.* you will probably have to create a directory in the `data/` path on your own. Then you will have to specify the directory location using the `--data_dir` argument. The directory must store at least a train.csv file and a test.csv file. Both the files must have a `{label}\t{text}` format. When possible, we downloaded these files for you and we accordingly enriched the `data` directory in this repository. However, we didn't manage to easily find on the Internet the files necessary to run the classification on R8, R52 and ohsumed.
 
 #### Run full-shot experiments
 
@@ -86,7 +88,7 @@ python main_text.py --para --dataset DBpedia --num_train 40000 --all_test
 To run 5-shot experiments, use:
 
 ```sh
-python main_text.py --para --dataset <DATASET> --num_train 5 --full_test
+python main_text.py --para --dataset <DATASET> --num_train 5 --all_test
 ```
 
 #### Calculate Accuracy (Optional)
@@ -97,7 +99,7 @@ If we want to calculate accuracy from recorded distance file `<DISTANCE DIR>`, u
 python main_text.py --record --score --distance_fn <DISTANCE DIR>
 ```
 
-Anyway, the accuracy will be automatically calculated using the command in the section above.
+Anyway, the accuracy will always be automatically calculated regardless of the arguments you specify.
 
 #### Use Custom Dataset (We didn't try this)
 
